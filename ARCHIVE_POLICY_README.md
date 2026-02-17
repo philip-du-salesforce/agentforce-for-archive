@@ -1,6 +1,6 @@
-# Create Archive Policy - Apex Action for Own Archive
+# Create Archive Policy - Apex Action for SF_Archiver
 
-This Apex action automates the creation of archive policies for the Own Archive (OB_Archiver) package in Salesforce. It allows users to quickly set up archiving rules without manually configuring them in the Own Archive interface.
+This Apex action automates the creation of archive policies for **SF_Archiver** (Salesforce native archiving). It allows users to quickly set up archiving rules without manually configuring them in the SF_Archiver interface.
 
 ## Overview
 
@@ -12,8 +12,8 @@ The `AgentAction_CreateArchivePolicy` class is an invocable Apex action that can
 
 ## Prerequisites
 
-1. **Own Archive Package**: The Own Archive (OB_Archiver) package must be installed in your org
-2. **Permissions**: Users must have permission to create `OB_Archiver__ArchivingPolicy__c` records
+1. **SF_Archiver**: SF_Archiver (Salesforce native archiving) must be enabled in your org
+2. **Permissions**: Users must have permission to create archive policy records (SF_Archiver)
 
 ## Features
 
@@ -74,13 +74,13 @@ Description: "Archives payment records older than 2 years"
 1. **Input Validation**: Checks that all required fields are provided and valid
 2. **Object Verification**: Confirms the target object exists in the org
 3. **Query Generation**: Creates a SOQL query: `SELECT Id FROM [Object] WHERE CreatedDate < LAST_N_DAYS:[Days]`
-4. **Policy Creation**: Dynamically creates the Own Archive policy record
+4. **Policy Creation**: Dynamically creates the SF_Archiver archive policy record
 5. **Activation**: Sets the policy to active immediately
 6. **Response**: Returns success/failure message with details
 
 ## Query Format
 
-The action generates queries in the format expected by Own Archive:
+The action generates queries in the format expected by SF_Archiver:
 
 ```sql
 SELECT Id FROM [ObjectName] WHERE CreatedDate < LAST_N_DAYS:[RetentionDays]
@@ -116,7 +116,7 @@ The action includes comprehensive error handling for:
 ❌ Missing or invalid object name
 ❌ Invalid retention days (< 1)
 ❌ Non-existent object
-❌ Own Archive package not installed
+❌ SF_Archiver not enabled
 ❌ Permission issues
 
 Error messages are user-friendly and include guidance on how to resolve issues.
@@ -161,14 +161,14 @@ You can modify this to support:
 ## Support
 
 For issues or questions:
-1. Check that Own Archive is installed: Setup → Installed Packages
+1. Check that SF_Archiver is enabled: Setup → Archive Policies / SF_Archiver
 2. Verify object API names: Setup → Object Manager
 3. Check user permissions for archive policy creation
 4. Review debug logs for detailed error information
 
 ## Version History
 
-- **v1.0** (2026-02-02): Initial release with Own Archive support
+- **v1.0** (2026-02-02): Initial release with SF_Archiver support
 
 ## Related Files
 

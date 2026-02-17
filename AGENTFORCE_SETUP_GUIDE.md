@@ -14,7 +14,7 @@ This guide walks you through setting up the Create Archive Policy action in your
    - **Apex Method**: Select `createArchivePolicy`
    - **Description**: 
      ```
-     Creates an automated archive policy for a Salesforce object using Own Archive. 
+     Creates an automated archive policy for a Salesforce object using SF_Archiver. 
      Specify the object name, retention period in days, and policy name to automatically 
      set up archiving rules.
      ```
@@ -136,14 +136,14 @@ Always verify the object name exists and confirm retention period before creatin
 - [ ] Agent creates policy successfully
 - [ ] Agent provides confirmation with policy ID
 - [ ] Error handling works for invalid inputs
-- [ ] Policy appears in Own Archive interface
+- [ ] Policy appears in SF_Archiver interface
 
 ## Verification
 
 After the agent creates a policy, verify it in Salesforce:
 
-1. Go to **Own Archive** app
-2. Click on **Policies** tab
+1. Go to **SF_Archiver** (Archive Policies)
+2. Open the **Policies** list
 3. Find the newly created policy
 4. Verify:
    - Policy is Active
@@ -153,11 +153,11 @@ After the agent creates a policy, verify it in Salesforce:
 
 ## Common Issues & Solutions
 
-### Issue 1: "Own Archive package not installed"
-**Solution**: Install the Own Archive (OB_Archiver) managed package from AppExchange
+### Issue 1: "SF_Archiver not available"
+**Solution**: Enable SF_Archiver in your org (Setup → Archive Policies / SF_Archiver)
 
 ### Issue 2: "Permission denied"
-**Solution**: Grant the user/agent permission to create `OB_Archiver__ArchivingPolicy__c` records
+**Solution**: Grant the user/agent permission to create archive policy records (SF_Archiver)
 
 ### Issue 3: "Object does not exist"
 **Solution**: Verify the object API name is correct (use Setup → Object Manager)
@@ -172,7 +172,9 @@ Combine with other Data Steward actions:
 1. **Get Storage Limits** → Identify storage issues
 2. **Find Large Files** → Identify storage consumers  
 3. **Top Storage Consumers** → Find objects to archive
-4. **Create Archive Policy** → Set up automated archiving
+4. **Create Archive Policy** → Set up automated archiving (SF_Archiver)
+5. **List Archive Policies** → List existing SF_Archiver policies
+6. **Guide Archive Policy Creation** → Guide users through SF_Archiver UI
 
 Example conversation flow:
 ```
@@ -203,7 +205,7 @@ Agent: "✓ Archive policy created! Cases older than 365 days will be archived."
 For questions or issues, refer to:
 - Main documentation: `ARCHIVE_POLICY_README.md`
 - Debug logs: Setup → Debug Logs
-- Own Archive documentation: Own Archive Help Center
+- SF_Archiver: Salesforce help for archive policies
 - Test class: `AgentAction_CreateArchivePolicy_Test.cls`
 
 ---

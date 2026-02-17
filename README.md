@@ -1,46 +1,63 @@
-# Agentforce Data Steward
+# Agentforce for Archive POC
 
-A comprehensive Salesforce solution for automated data stewardship and storage management using Agentforce and Own Archive integration.
+A Salesforce proof-of-concept for automated data stewardship and storage management using Agentforce and **SF_Archiver** (Salesforce native archiving).
 
 ## Overview
 
-This project provides Apex actions that enable Agentforce agents to help users manage Salesforce data storage, identify storage consumers, and automate archiving policies. It integrates with the Own Archive (OB_Archiver) managed package to provide intelligent data lifecycle management.
+This project provides Apex actions that enable Agentforce agents to help users manage Salesforce data storage, identify storage consumers, and work with archive policies. It integrates with **SF_Archiver** for intelligent data lifecycle management.
 
-## Features
+## Agent Actions (6)
 
-### 📊 Storage Management Actions
+All six agent actions and the topics they support:
 
-- **Get Storage Limits** (`AgentAction_GetStorageLimits`)
-  - View current storage usage (Data and File storage)
-  - Monitor available storage capacity
-  - Get alerts when approaching limits
+### 1. Get Storage Limits (`AgentAction_GetStorageLimits`)
+- View current storage usage (Data and File storage)
+- Monitor available storage capacity
+- Get alerts when approaching limits  
+- **Topic:** Storage & Capacity
 
-- **Find Large Files** (`AgentAction_FindLargeFiles`)
-  - Identify the largest files in your org
-  - See file sizes and types
-  - Discover storage optimization opportunities
+### 2. Find Large Files (`AgentAction_FindLargeFiles`)
+- Identify the largest files in your org
+- See file sizes and types
+- Discover storage optimization opportunities  
+- **Topic:** Storage & Capacity
 
-- **Top Storage Consumers** (`AgentAction_TopStorageConsumers`)
-  - Identify which objects consume the most storage
-  - Analyze storage distribution across objects
-  - Prioritize archiving candidates
+### 3. Top Storage Consumers (`AgentAction_TopStorageConsumers`)
+- Identify which objects consume the most storage
+- Analyze storage distribution across objects
+- Prioritize archiving candidates  
+- **Topic:** Storage & Capacity
 
-### 🗄️ Archive Management
+### 4. Create Archive Policy (`AgentAction_CreateArchivePolicy`)
+- Create archive policies for Salesforce objects using SF_Archiver
+- Set retention rules and policy names
+- Validate objects and parameters; batch create multiple policies  
+- **Topic:** Archive & Retention
 
-- **Create Archive Policy** (`AgentAction_CreateArchivePolicy`) ⭐ NEW!
-  - Automatically create Own Archive policies
-  - Set retention rules for any Salesforce object
-  - Configure archiving without manual setup
-  - Validate objects and parameters
-  - Batch create multiple policies
+### 5. List Archive Policies
+- List existing SF_Archiver archive policies in the org
+- See policy names, objects, and status  
+- **Topic:** Archive & Retention
+
+### 6. Guide Archive Policy Creation
+- Guides users step-by-step to create archive policies in the SF_Archiver UI
+- No programmatic policy creation; uses native SF_Archiver flows  
+- **Topic:** Archive & Retention
+
+## Topics
+
+| Topic | Purpose | Linked Actions |
+|-------|---------|----------------|
+| **Storage & Capacity** | Storage limits, large files, top consumers | Get Storage Limits, Find Large Files, Top Storage Consumers |
+| **Archive & Retention** | Create/list policies, guide users to SF_Archiver | Create Archive Policy, List Archive Policies, Guide Archive Policy Creation |
 
 ## Prerequisites
 
 - Salesforce org with API access
-- Own Archive (OB_Archiver) package installed (for archive policy creation)
+- **SF_Archiver** enabled (Salesforce native archiving)
 - Agentforce enabled in your org
 - Appropriate user permissions for:
-  - Creating archive policies
+  - Creating and viewing archive policies (SF_Archiver)
   - Querying ContentDocument
   - Viewing storage limits
 
@@ -50,7 +67,7 @@ This project provides Apex actions that enable Agentforce agents to help users m
 
 ```bash
 # Clone or download this repository
-cd AgentforceDataSteward
+cd agentforce-for-archive
 
 # Authenticate to your Salesforce org
 sf org login web --set-default-username
@@ -104,42 +121,44 @@ User: "What's taking up the most space?"
 Agent: [Uses Top Storage Consumers] "Cases are using 20 GB, Attachments 15 GB..."
 ```
 
-**Archive Policy Creation:**
+**Archive (SF_Archiver):**
 ```
 User: "Archive cases older than 1 year"
 Agent: [Uses Create Archive Policy] 
        "✓ Created policy 'Archive Old Cases' for Case records older than 365 days"
 
-User: "Set up archiving for old accounts and opportunities"
-Agent: [Creates two policies] 
-       "✓ Created 2 archive policies - one for Accounts and one for Opportunities"
+User: "List my archive policies"
+Agent: [Uses List Archive Policies] Shows existing SF_Archiver policies
+
+User: "How do I create an archive policy?"
+Agent: [Uses Guide Archive Policy Creation] Walks user through SF_Archiver UI
 ```
 
 ## Project Structure
 
 ```
-AgentforceDataSteward/
+agentforce-for-archive/
 ├── force-app/main/default/
 │   └── classes/
-│       ├── AgentAction_CreateArchivePolicy.cls          # New archive policy action
-│       ├── AgentAction_CreateArchivePolicy_Test.cls     # Test class
-│       ├── AgentAction_GetStorageLimits.cls             # Storage limits action
+│       ├── AgentAction_CreateArchivePolicy.cls          # Create archive policy (SF_Archiver)
+│       ├── AgentAction_CreateArchivePolicy_Test.cls
+│       ├── AgentAction_GetStorageLimits.cls             # Storage limits
 │       ├── AgentAction_GetStorageLimits_Test.cls
-│       ├── AgentAction_FindLargeFiles.cls               # Find large files
+│       ├── AgentAction_FindLargeFiles.cls              # Find large files
 │       ├── AgentAction_FindLargeFiles_Test.cls
-│       ├── AgentAction_TopStorageConsumers.cls          # Top storage users
+│       ├── AgentAction_TopStorageConsumers.cls         # Top storage consumers
 │       └── AgentAction_TopStorageConsumers_Test.cls
 ├── scripts/apex/
 │   └── test_archive_policy.apex                         # Test script
-├── ARCHIVE_POLICY_README.md                             # Detailed archive policy docs
-├── AGENTFORCE_SETUP_GUIDE.md                           # Setup instructions
+├── ARCHIVE_POLICY_README.md                             # Archive policy (SF_Archiver) docs
+├── AGENTFORCE_SETUP_GUIDE.md                            # Agent actions & topics setup
 └── README.md                                            # This file
 ```
 
 ## Documentation
 
-- **[ARCHIVE_POLICY_README.md](./ARCHIVE_POLICY_README.md)** - Complete documentation for Create Archive Policy action
-- **[AGENTFORCE_SETUP_GUIDE.md](./AGENTFORCE_SETUP_GUIDE.md)** - Step-by-step Agentforce configuration guide
+- **[ARCHIVE_POLICY_README.md](./ARCHIVE_POLICY_README.md)** - Create Archive Policy action (SF_Archiver)
+- **[AGENTFORCE_SETUP_GUIDE.md](./AGENTFORCE_SETUP_GUIDE.md)** - Set up all 6 agent actions and topics
 
 ## Usage Examples
 
@@ -172,14 +191,13 @@ List<AgentAction_FindLargeFiles.Response> responses =
 
 ## Configuration
 
-### Own Archive Package
+### SF_Archiver
 
-The Create Archive Policy action requires the Own Archive (OB_Archiver) package:
+Archive actions use **SF_Archiver** (Salesforce native archiving):
 
-1. Install from [Salesforce AppExchange](https://appexchange.salesforce.com/)
-2. Complete the Own Archive setup wizard
-3. Configure external storage (if needed)
-4. Set up permissions for users/agents
+1. Enable SF_Archiver in your org (Setup → Archive Policies / SF_Archiver)
+2. Configure retention and storage as needed
+3. Grant users/agents permission to create and view archive policies
 
 ### Customization
 
@@ -213,13 +231,13 @@ sf apex run test --result-format human --code-coverage --wait 10
 
 ## Troubleshooting
 
-### "Own Archive package not installed"
-- Install the OB_Archiver package from AppExchange
-- Verify installation: Setup → Installed Packages
+### "SF_Archiver not available"
+- Enable SF_Archiver in your org (Setup)
+- Verify archive policies are available in your edition
 
 ### "Permission denied"
-- Grant create permission on `OB_Archiver__ArchivingPolicy__c`
-- Assign appropriate permission sets
+- Grant create/view permission for archive policies (SF_Archiver)
+- Assign appropriate permission sets for the agent
 
 ### "Object does not exist"
 - Verify object API name in Setup → Object Manager
@@ -228,7 +246,7 @@ sf apex run test --result-format human --code-coverage --wait 10
 ### Agent not recognizing requests
 - Add more training utterances in Agent Builder
 - Update agent system instructions
-- Create specific topics for archiving/storage
+- Use topics: **Storage & Capacity** and **Archive & Retention** with the 6 actions linked
 
 ## Best Practices
 
@@ -261,18 +279,18 @@ To add new actions:
 
 ## Support & Resources
 
-- **Documentation**: See individual README files for detailed docs
+- **Documentation**: See ARCHIVE_POLICY_README.md and AGENTFORCE_SETUP_GUIDE.md
 - **Test Scripts**: Use scripts in `scripts/apex/` for testing
 - **Debug Logs**: Enable debug logs for troubleshooting
-- **Own Archive Docs**: Refer to Own Archive documentation for advanced features
+- **SF_Archiver**: Use Salesforce help for SF_Archiver and archive policies
 
 ## Version History
 
 - **v1.0** (2026-02-02)
   - Initial release
-  - Create Archive Policy action
-  - Storage management actions
-  - Comprehensive test coverage
+  - Six agent actions: Get Storage Limits, Find Large Files, Top Storage Consumers, Create Archive Policy, List Archive Policies, Guide Archive Policy Creation
+  - Topics: Storage & Capacity, Archive & Retention
+  - SF_Archiver integration (no Own Archive / OB_Archiver)
 
 ## License
 
@@ -283,4 +301,4 @@ This project is provided as-is for use with Salesforce and Agentforce.
 - [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
 - [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
 - [Agentforce Documentation](https://help.salesforce.com/s/articleView?id=sf.agentforce.htm)
-- [Own Archive Documentation](https://www.owndata.com/own-archive/)
+- [Salesforce Archiving (SF_Archiver)](https://help.salesforce.com/) — native archive policies
