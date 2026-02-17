@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Simulated_Created_Date__c</fullName>
+    <description>Simulated created date for archive/age testing (1–3 years ago). Used when real CreatedDate cannot be backdated.</description>
+    <externalId>false</externalId>
+    <label>Simulated Created Date</label>
+    <required>false</required>
+    <type>DateTime</type>
+</CustomField>

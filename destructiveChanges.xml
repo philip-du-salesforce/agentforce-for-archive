@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>AgentAction_ListArchivePolicies</members>
+        <members>AgentAction_ListArchivePolicies_Test</members>
+        <members>AgentAction_CreateArchivePolicyEnh_Test</members>
+        <members>AgentAction_CreateArchivePolicy_Enhanced</members>
+        <members>AgentAction_CreateArchivePolicy_Enhanced_Test</members>
+        <members>AgentAction_CreateArchivePolicy_Native</members>
+        <members>AgentAction_CreateNativeArchivePolicy</members>
+        <members>ArchivePolicyToolingAPI</members>
+        <members>AgentAction_GenerateArchivePolicyXML</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>SalesforceToolingAPI</members>
+        <name>RemoteSiteSetting</name>
+    </types>
+</Package>
